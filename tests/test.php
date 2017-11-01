@@ -3,6 +3,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use PhpTextFilters\HtmlEntities;
 use PhpTextFilters\PrefixPostfix;
+use PhpTextFilters\Length;
 use PhpTextFilters\RegexReplace;
 use PhpTextFilters\TitleCaseShort;
 
@@ -19,6 +20,7 @@ $fTitle = new TitleCaseShort([
     'maxWords' => 4
 ]);
 $fRegex = new RegexReplace();
+$fLength = new Length(['max' => 25]);
 
 print_r(
   [
@@ -32,6 +34,11 @@ print_r(
     'title1' => $fTitle->run('hello from the USA'),
     // should uppercase the first letter
     'title2' => $fTitle->run('łorem ipsum dolor amet unicum est.'),
+    // should cut on word boundary below 25 char
+    'length1' => $fLength->run('łorem ipsum dolor amet unicum est.'),
+    // should cut after 'y'
+    'length2' => $fLength->run('abcdefghijklmnopqrstuvwxyz'),
   ]
 );
+
 
